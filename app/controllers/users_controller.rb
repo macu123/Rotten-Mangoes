@@ -5,6 +5,7 @@ class UsersController < ApplicationController
 
   def create
     @user = User.new(user_params)
+    @user.if_admin = false
 
     if @user.save
       session[:user_id] = @user.id
