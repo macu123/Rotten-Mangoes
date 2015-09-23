@@ -5,6 +5,14 @@ class Movie < ActiveRecord::Base
   validates :runtime_in_minutes, numericality: {only_integer: true}
   validate :release_date_is_in_the_future
 
+  def review_average
+    unless reviews.size == 0
+      "#{reviews.sum(:rating_out_of_ten)/reviews.size}/10"
+    else
+      "N/A"
+    end
+  end
+
   protected
   
   def release_date_is_in_the_future
