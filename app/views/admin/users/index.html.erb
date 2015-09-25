@@ -1,13 +1,7 @@
 <h1>Admin Panel</h1>
 <hr>
 <% @users.each do |user| %>
-  <h2><%= user.firstname %> <%= user.lastname %> (<%= link_to "edit", edit_admin_user_path(user) %>, <%= link_to "delete", admin_user_path(user), method: :delete, confirm: "You sure?" %>)</h2>
-  <h3><%= user.email %></h3>
-  <h4>Created At: <%= user.created_at %> | Updated At: <%= user.updated_at %></h4>
-  <% if user.if_admin == true %>
-    <p>Is an admin role</p>
-  <% else %>
-    <p>Not an admin role</p>
-  <% end %>
-  <hr>
+  <h2>
+  <%= user.firstname %> <%= user.lastname %> - <%= user.email %> (<%= link_to "Show details", admin_user_path(user) %>)
+  </h2>
 <% end %>

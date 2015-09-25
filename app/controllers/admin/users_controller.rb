@@ -2,8 +2,11 @@ class Admin::UsersController < ApplicationController
   before_action :restrict_access
 
   def index
-    @users = User.where("if_admin != ?", true)
+    @users = User.all
+  end
 
+  def show
+    @user = User.find(params[:id])
   end
 
   def new
@@ -20,7 +23,7 @@ class Admin::UsersController < ApplicationController
 
     if @user.save
       session[:user_id] = @user.id
-      redirect_to admin_users_path, notice: "Welcome aboard, admin #{@user.firstname}!"
+      redirect_to movies_path, notice: "Welcome aboard, admin #{@user.firstname}!"
     else
       render :new
     end
@@ -30,7 +33,7 @@ class Admin::UsersController < ApplicationController
     @user = User.find(params[:id])
 
     if @user.update_attributes(user_params)
-      redirect_to admin_users_path
+      redirect_to admin_user_path(@user), notice: "This user profile is successfully updated!"
     else
       render :edit
     end
@@ -38,8 +41,13 @@ class Admin::UsersController < ApplicationController
 
   def destroy
     @user = User.find(params[:id])
-    @user.destroy
-    redirect_to admin_users_path
+
+    if @user == current_user
+      redirect_to admin_user_path(@user), alert: "You cannot delete yourself!"
+    else
+      @user.destroy
+      redirect_to admin_users_path, notice: "The user profile is successfully deleted!"
+    end
   end
 
   protected
@@ -50,7 +58,7 @@ class Admin::UsersController < ApplicationController
       redirect_to new_session_path
     elsif current_user.if_admin != true
       flash[:alert] = "You must login in as admin role."
-      redirect_to movies_path
+      redirect_to new_session_path
     end
   end
 
