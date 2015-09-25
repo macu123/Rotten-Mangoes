@@ -4,8 +4,4 @@
 </h2>
 <h3>Created At: <%= formatted_datetime(@user.created_at) %></h3>
 <h3>Updated At: <%= formatted_datetime(@user.updated_at) %></h3>
-<% if @user.if_admin == true %>
-  <p>Is an admin role</p>
-<% else %>
-  <p>Not an admin role</p>
-<% end %>
+<p> Admin: <%= @user.if_admin %>

@@ -19,11 +19,17 @@ class Admin::UsersController < ApplicationController
 
   def create
     @user = User.new(user_params)
-    @user.if_admin = true
 
     if @user.save
       session[:user_id] = @user.id
-      redirect_to movies_path, notice: "Welcome aboard, admin #{@user.firstname}!"
+
+      if @user.if_admin == true
+        flash[:notice] = "Welcome aboard, admin #{@user.firstname}!"
+      else
+        flash[:notice] = "Welcome aboard, #{@user.firstname}!"
+      end
+
+      redirect_to movies_path
     else
       render :new
     end
@@ -63,6 +69,6 @@ class Admin::UsersController < ApplicationController
   end
 
   def user_params
-    params.require(:user).permit(:email, :firstname, :lastname, :password, :password_confirmation)
+    params.require(:user).permit(:email, :firstname, :lastname, :password, :password_confirmation, :if_admin)
   end
 end
