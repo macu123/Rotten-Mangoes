@@ -21,15 +21,8 @@ class Admin::UsersController < ApplicationController
     @user = User.new(user_params)
 
     if @user.save
-      session[:user_id] = @user.id
-
-      if @user.if_admin == true
-        flash[:notice] = "Welcome aboard, admin #{@user.firstname}!"
-      else
-        flash[:notice] = "Welcome aboard, #{@user.firstname}!"
-      end
-
-      redirect_to movies_path
+      role = @user.if_admin == true ? "admin" : "normal"
+      redirect_to admin_users_path, notice: "The #{role} user #{@user.full_name} is created successfully!"
     else
       render :new
     end
@@ -39,7 +32,7 @@ class Admin::UsersController < ApplicationController
     @user = User.find(params[:id])
 
     if @user.update_attributes(user_params)
-      redirect_to admin_user_path(@user), notice: "This user profile is successfully updated!"
+      redirect_to admin_user_path(@user), notice: "#{@user.full_name}'s profile is successfully updated!"
     else
       render :edit
     end
@@ -51,12 +44,8 @@ class Admin::UsersController < ApplicationController
     if @user == current_user
       redirect_to admin_user_path(@user), alert: "You cannot delete yourself!"
     else
-      @user.reviews.each do |review|
-        review.destroy
-      end
       @user.destroy
-      
-      redirect_to admin_users_path, notice: "The user profile and related reviews are successfully deleted!"
+      redirect_to admin_users_path, notice: "The #{@user.full_name}'s profile and related reviews are successfully deleted!"
     end
   end
 
@@ -64,12 +53,15 @@ class Admin::UsersController < ApplicationController
 
   def restrict_access
     if !current_user
-      flash[:alert] = "You must login in."
-      redirect_to new_session_path
+      role = ""
     elsif current_user.if_admin != true
-      flash[:alert] = "You must login in as admin role."
-      redirect_to new_session_path
+      role = " as admin role"
+    else
+      return
     end
+
+    flash[:alert] = "You must login in#{role}."
+    redirect_to new_session_path
   end
 
   def user_params

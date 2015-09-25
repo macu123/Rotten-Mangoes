@@ -7,13 +7,8 @@ class SessionsController < ApplicationController
 
     if user && user.authenticate(params[:password])
       session[:user_id] = user.id
-      if user.if_admin == true
-        flash[:notice] = "Welcome back, admin #{user.firstname}!"
-      else
-        flash[:notice] = "Welcome back, #{user.firstname}!"
-      end
-
-      redirect_to movies_path
+      role = user.if_admin == true ? "admin " : ""
+      redirect_to movies_path, notice: "Welcome back, #{role}#{user.firstname}!"
     else
       flash.now[:alert] = "Login failed..."
       render :new
