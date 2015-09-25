@@ -51,8 +51,12 @@ class Admin::UsersController < ApplicationController
     if @user == current_user
       redirect_to admin_user_path(@user), alert: "You cannot delete yourself!"
     else
+      @user.reviews.each do |review|
+        review.destroy
+      end
       @user.destroy
-      redirect_to admin_users_path, notice: "The user profile is successfully deleted!"
+      
+      redirect_to admin_users_path, notice: "The user profile and related reviews are successfully deleted!"
     end
   end
 
