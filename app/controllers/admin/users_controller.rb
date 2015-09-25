@@ -2,7 +2,7 @@ class Admin::UsersController < ApplicationController
   before_action :restrict_access
 
   def index
-    @users = User.all
+    @users = User.order("firstname").page(params[:page]).per(10)
   end
 
   def show

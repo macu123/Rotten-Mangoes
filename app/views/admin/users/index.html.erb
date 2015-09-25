@@ -1,7 +1,19 @@
 <h1>Admin Panel</h1>
 <hr>
-<% @users.each do |user| %>
-  <h2>
-  <%= user.firstname %> <%= user.lastname %> - <%= user.email %> (<%= link_to "Show details", admin_user_path(user) %>)
-  </h2>
-<% end %>
+<table>
+  <tr>
+    <th>First Name</th>
+    <th>Last Name</th>
+    <th>Email</th>
+    <th>Instruction</th>
+  </tr>
+  <% @users.each do |user| %>
+    <tr>
+      <td><%= user.firstname %></td>
+      <td><%= user.lastname %></td>
+      <td><%= user.email %></td>
+      <td><%= link_to "Show details", admin_user_path(user) %></td>
+    </tr>
+  <% end %>
+</table>
+<%= paginate @users %>
