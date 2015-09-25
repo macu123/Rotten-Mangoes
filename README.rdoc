@@ -1,28 +1,12 @@
-== README
+Rotten Mangoes
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+- The clone to Rotten Tomatoes
+- Built using Ruby on Rails
+- Part of Lighthouse Labs Exercise
 
-Things you may want to cover:
-
-* Ruby version
-
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
-
-
-Please feel free to use a different markup language if you do not plan to run
-<tt>rake doc:app</tt>.
+TODO List:
+1. add Actor model and necessary associations and models (hint: this will involve using has_many, through:!).
+2. add movie categories.
+3. sort movies by different properties (average review, title, newest, et cetera).
+4. add users/show.html with list of movies reviewed and average review.
+5. styling using bootstrap-sass or foundation gem.
