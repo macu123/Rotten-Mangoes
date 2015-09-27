@@ -22,7 +22,7 @@ class Admin::UsersController < ApplicationController
 
     if @user.save
       role = @user.if_admin == true ? "admin" : "normal"
-      redirect_to admin_users_path, notice: "The #{role} user #{@user.full_name} is created successfully!"
+      redirect_to admin_users_path, notice: "The #{role} user #{@user.full_name} was created successfully!"
     else
       render :new
     end
@@ -32,7 +32,7 @@ class Admin::UsersController < ApplicationController
     @user = User.find(params[:id])
 
     if @user.update_attributes(user_params)
-      redirect_to admin_user_path(@user), notice: "#{@user.full_name}'s profile is successfully updated!"
+      redirect_to admin_user_path(@user), notice: "#{@user.full_name}'s profile was successfully updated!"
     else
       render :edit
     end
@@ -45,7 +45,7 @@ class Admin::UsersController < ApplicationController
       redirect_to admin_user_path(@user), alert: "You cannot delete yourself!"
     else
       @user.destroy
-      redirect_to admin_users_path, notice: "The #{@user.full_name}'s profile and related reviews are successfully deleted!"
+      redirect_to admin_users_path, notice: "The #{@user.full_name}'s profile and related reviews were successfully deleted!"
     end
   end
 
