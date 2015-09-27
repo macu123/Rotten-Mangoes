@@ -45,6 +45,7 @@ class Admin::UsersController < ApplicationController
       redirect_to admin_user_path(@user), alert: "You cannot delete yourself!"
     else
       @user.destroy
+      UserMailer.delete_messege(@user).deliver
       redirect_to admin_users_path, notice: "The #{@user.full_name}'s profile and related reviews were successfully deleted!"
     end
   end
